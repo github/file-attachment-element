@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "plugin:github/browser",
+    "plugin:github/es6",
+    "plugin:github/typescript"
+  ],
+  "globals": {
+    "FileAttachmentElement": "readable"
+  },
+  "overrides": [
+    {
+      "files": "test/**/*.js",
+      "rules": {
+        "github/unescaped-html-literal": "off"
+      }
+    }
+  ]
+}
