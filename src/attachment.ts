@@ -1,6 +1,11 @@
 export default class Attachment {
   file: File
   directory: string | undefined
+  state: 'pending' | 'saving' | 'saved'
+  id: string | null | undefined
+  href: string | null | undefined
+  name: string | null | undefined
+  percent: number
 
   static traverse(transfer: DataTransfer, directory: boolean): Promise<Attachment[]> {
     return transferredFiles(transfer, directory)
@@ -23,6 +28,11 @@ export default class Attachment {
   constructor(file: File, directory?: string) {
     this.file = file
     this.directory = directory
+    this.state = 'pending'
+    this.id = null
+    this.href = null
+    this.name = null
+    this.percent = 0
   }
 
   get fullPath(): string {
@@ -31,6 +41,36 @@ export default class Attachment {
 
   isImage(): boolean {
     return ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'].indexOf(this.file.type) > -1
+  }
+
+  saving(percent: number) {
+    if (this.state !== 'pending' && this.state !== 'saving') {
+      throw new Error(`Unexpected transition from ${this.state} to saving`)
+    }
+    this.state = 'saving'
+    this.percent = percent
+  }
+
+  saved(attributes: {id?: string | null; href?: string | null; name?: string | null}) {
+    if (this.state !== 'pending' && this.state !== 'saving') {
+      throw new Error(`Unexpected transition from ${this.state} to saved`)
+    }
+    this.state = 'saved'
+    this.id = attributes.id
+    this.href = attributes.href
+    this.name = attributes.name
+  }
+
+  isPending(): boolean {
+    return this.state === 'pending'
+  }
+
+  isSaving(): boolean {
+    return this.state === 'saving'
+  }
+
+  isSaved(): boolean {
+    return this.state === 'saved'
   }
 }
 
