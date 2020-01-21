@@ -51,14 +51,14 @@ export default class Attachment {
     this.percent = percent
   }
 
-  saved(attributes: {id?: string | null; href?: string | null; name?: string | null}) {
+  saved(attributes?: {id?: string | null; href?: string | null; name?: string | null}) {
     if (this.state !== 'pending' && this.state !== 'saving') {
       throw new Error(`Unexpected transition from ${this.state} to saved`)
     }
     this.state = 'saved'
-    this.id = attributes.id
-    this.href = attributes.href
-    this.name = attributes.name
+    this.id = attributes?.id
+    this.href = attributes?.href
+    this.name = attributes?.name
   }
 
   isPending(): boolean {
