@@ -17,7 +17,7 @@
     "compile": "tsc",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "karma start test/karma.config.js",
+    "test": "karma start karma.config.js",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
