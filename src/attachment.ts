@@ -2,9 +2,9 @@ export default class Attachment {
   file: File
   directory: string | undefined
   state: 'pending' | 'saving' | 'saved'
-  id: string | null | undefined
-  href: string | null | undefined
-  name: string | null | undefined
+  id: string | null
+  href: string | null
+  name: string | null
   percent: number
 
   static traverse(transfer: DataTransfer, directory: boolean): Promise<Attachment[]> {
@@ -56,9 +56,9 @@ export default class Attachment {
       throw new Error(`Unexpected transition from ${this.state} to saved`)
     }
     this.state = 'saved'
-    this.id = attributes?.id
-    this.href = attributes?.href
-    this.name = attributes?.name
+    this.id = attributes?.id ?? null
+    this.href = attributes?.href ?? null
+    this.name = attributes?.name ?? null
   }
 
   isPending(): boolean {
