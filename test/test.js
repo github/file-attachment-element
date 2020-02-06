@@ -58,11 +58,12 @@ describe('file-attachment', function() {
   })
 
   describe('element', function() {
-    let fileAttachment
+    let fileAttachment, input
     beforeEach(function() {
-      document.body.innerHTML = `<file-attachment></file-attachment>`
+      document.body.innerHTML = `<file-attachment><input type="file"></file-attachment>`
 
       fileAttachment = document.querySelector('file-attachment')
+      input = document.querySelector('input')
     })
 
     afterEach(function() {
@@ -105,6 +106,20 @@ describe('file-attachment', function() {
 
       const event = await listener
       assert.equal('test.png', event.detail.attachments[0].file.name)
+    })
+
+    it('attaches files via input', async function() {
+      const listener = once('file-attachment-accepted')
+
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.png', {type: 'image/png'})
+      dataTransfer.items.add(file)
+      input.files = dataTransfer.files
+      input.dispatchEvent(new Event('change', {bubbles: true}))
+
+      const event = await listener
+      assert.equal('test.png', event.detail.attachments[0].file.name)
+      assert.equal(0, input.files.length)
     })
   })
 })
