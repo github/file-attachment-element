@@ -8,6 +8,7 @@ class FileAttachmentElement extends HTMLElement {
     this.addEventListener('dragleave', onDragleave)
     this.addEventListener('drop', onDrop)
     this.addEventListener('paste', onPaste)
+    this.addEventListener('change', onChange)
   }
 
   get directory(): boolean {
@@ -131,4 +132,17 @@ function onPaste(event: ClipboardEvent) {
   const files: File[] = [file]
   container.attach(files)
   event.preventDefault()
+}
+
+function onChange(event: Event) {
+  const container = event.currentTarget
+  if (!(container instanceof FileAttachmentElement)) return
+  const input = event.target
+  if (!(input instanceof HTMLInputElement)) return
+
+  const files = input.files
+  if (!files || files.length === 0) return
+
+  container.attach(files)
+  input.value = ''
 }
