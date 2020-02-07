@@ -139,6 +139,8 @@ function onChange(event: Event) {
   if (!(container instanceof FileAttachmentElement)) return
   const input = event.target
   if (!(input instanceof HTMLInputElement)) return
+  const id = container.getAttribute('input')
+  if (!id || input.id !== id) return
 
   const files = input.files
   if (!files || files.length === 0) return
