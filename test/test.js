@@ -56,4 +56,59 @@ describe('file-attachment', function() {
       assert.equal('/s3/saved.txt', attachment.href)
     })
   })
+
+  describe('element', function() {
+    let fileAttachment
+    beforeEach(function() {
+      document.body.innerHTML = `<file-attachment></file-attachment>`
+
+      fileAttachment = document.querySelector('file-attachment')
+    })
+
+    afterEach(function() {
+      document.body.innerHTML = ''
+    })
+
+    it('attaches files via .attach', async function() {
+      const listener = once('file-attachment-accepted')
+
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+      fileAttachment.attach(dataTransfer)
+
+      const event = await listener
+      assert.equal('test.txt', event.detail.attachments[0].file.name)
+    })
+
+    it('attaches files via drop', async function() {
+      const listener = once('file-attachment-accepted')
+
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+      const dropEvent = new DragEvent('drop', {bubbles: true, dataTransfer})
+      fileAttachment.dispatchEvent(dropEvent)
+
+      const event = await listener
+      assert.equal('test.txt', event.detail.attachments[0].file.name)
+    })
+
+    it('attaches images via paste', async function() {
+      const listener = once('file-attachment-accepted')
+
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.png', {type: 'image/png'})
+      dataTransfer.items.add(file)
+      const dropEvent = new ClipboardEvent('paste', {bubbles: true, clipboardData: dataTransfer})
+      fileAttachment.dispatchEvent(dropEvent)
+
+      const event = await listener
+      assert.equal('test.png', event.detail.attachments[0].file.name)
+    })
+  })
 })
+
+function once(eventName) {
+  return new Promise(resolve => document.addEventListener(eventName, resolve, {once: true}))
+}
