@@ -60,7 +60,10 @@ describe('file-attachment', function() {
   describe('element', function() {
     let fileAttachment, input
     beforeEach(function() {
-      document.body.innerHTML = `<file-attachment><input type="file"></file-attachment>`
+      document.body.innerHTML = `
+        <file-attachment input="upload">
+          <input type="file" id="upload">
+        </file-attachment>`
 
       fileAttachment = document.querySelector('file-attachment')
       input = document.querySelector('input')
