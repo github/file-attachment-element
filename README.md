@@ -15,9 +15,15 @@ import '@github/file-attachment-element'
 ```
 
 ```html
-<file-attachment directory>
+<file-attachment directory input="upload">
+  <input id="upload" type="file" multiple>
 </file-attachment>
 ```
+
+### Optional attributes
+
+- `file-attachment[directory]` enables traversing directories.
+- `file-attachment[input]` points to the ID of a file input inside of `<file-attachment>`. Files selected from the `<input>` will be attached to `<file-attachment>`. Supplying an input is strongly recommended in order to ensure users can upload files without a mouse or knowing where to paste files.
 
 ### Styling drag state
 
