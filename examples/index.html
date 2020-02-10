@@ -8,19 +8,22 @@
       display: block;
       text-align: center;
       border: 4px dashed lightgrey;
-      height: 200px;
-      line-height: 200px;
+      padding: 100px;
       font-family: sans-serif;
-      font-size: 1.5em;
     }
     file-attachment[hover] {
       border-color: gold;
     }
+    input {
+      font-size: inherit;
+    }
   </style>
 </head>
 <body>
-  <file-attachment>
-    Drop files here
+  <file-attachment input="file">
+    Drop files here or
+    <input type="file" id="file" multiple>
+    <pre></pre>
   </file-attachment>
 
   <!-- GitHub Pages development script, uncomment when running example locally and comment out the production one -->
@@ -30,10 +33,10 @@
   <script type="module" src="https://unpkg.com/@github/file-attachment-element@latest/dist/index.js"></script>
 
   <script>
-    const attach = document.querySelector('file-attachment')
-    attach.addEventListener('file-attachment-accepted', function(event) {
+    const pre = document.querySelector('pre')
+    document.addEventListener('file-attachment-accepted', function(event) {
       const {attachments} = event.detail
-      attach.textContent = attachments.map(a => a.file.name).join(', ')
+      pre.textContent = attachments.map(a => a.file.name).join('\n')
     })
   </script>
 </body>
