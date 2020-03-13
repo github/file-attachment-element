@@ -1,6 +1,6 @@
 import Attachment from './attachment'
 
-class FileAttachmentElement extends HTMLElement {
+export default class FileAttachmentElement extends HTMLElement {
   constructor() {
     super()
     this.addEventListener('dragenter', onDragenter)
@@ -46,13 +46,6 @@ class FileAttachmentElement extends HTMLElement {
       )
     }
   }
-}
-
-export default FileAttachmentElement
-
-if (!window.customElements.get('file-attachment')) {
-  window.FileAttachmentElement = FileAttachmentElement
-  window.customElements.define('file-attachment', FileAttachmentElement)
 }
 
 function hasFile(transfer: DataTransfer): boolean {
