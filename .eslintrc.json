@@ -4,6 +4,9 @@
     "plugin:github/es6",
     "plugin:github/typescript"
   ],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "off"
+  },
   "globals": {
     "FileAttachmentElement": "readable"
   },

@@ -136,10 +136,8 @@ async function traverse(path: string, entries: FileSystemEntry[]): Promise<Attac
   const results = []
   for (const entry of visible(entries)) {
     if (entry.isDirectory) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       results.push(...(await traverse(entry.fullPath, await getEntries(entry as any))))
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const file = await getFile(entry as any)
       results.push(new Attachment(file, path))
     }
@@ -150,7 +148,6 @@ async function traverse(path: string, entries: FileSystemEntry[]): Promise<Attac
 function isDirectory(transfer: DataTransfer): boolean {
   return (
     transfer.items &&
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Array.from(transfer.items).some((item: any) => {
       const entry = item.webkitGetAsEntry && item.webkitGetAsEntry()
       return entry && entry.isDirectory
@@ -159,6 +156,7 @@ function isDirectory(transfer: DataTransfer): boolean {
 }
 
 function roots(transfer: DataTransfer): FileSystemEntry[] {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return Array.from(transfer.items).map((item: any) => item.webkitGetAsEntry())
+  return Array.from(transfer.items)
+    .map((item: any) => item.webkitGetAsEntry())
+    .filter(entry => entry != null)
 }
