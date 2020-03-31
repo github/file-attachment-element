@@ -1,45 +1,45 @@
 import {Attachment} from '../dist/index.js'
 
-describe('file-attachment', function() {
-  describe('element creation', function() {
-    it('creates from document.createElement', function() {
+describe('file-attachment', function () {
+  describe('element creation', function () {
+    it('creates from document.createElement', function () {
       const el = document.createElement('file-attachment')
       assert.equal('FILE-ATTACHMENT', el.nodeName)
       assert(el instanceof window.FileAttachmentElement)
     })
 
-    it('creates from constructor', function() {
+    it('creates from constructor', function () {
       const el = new window.FileAttachmentElement()
       assert.equal('FILE-ATTACHMENT', el.nodeName)
     })
   })
 
-  describe('attachment', function() {
-    it('has a full path without a directory', function() {
+  describe('attachment', function () {
+    it('has a full path without a directory', function () {
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const attachment = new Attachment(file)
       assert.equal('test.txt', attachment.fullPath)
     })
 
-    it('has a full path with a directory', function() {
+    it('has a full path with a directory', function () {
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const attachment = new Attachment(file, 'tmp')
       assert.equal('tmp/test.txt', attachment.fullPath)
     })
 
-    it('detects non image types', function() {
+    it('detects non image types', function () {
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const attachment = new Attachment(file)
       assert(!attachment.isImage())
     })
 
-    it('detects image types', function() {
+    it('detects image types', function () {
       const file = new File(['hubot'], 'test.gif', {type: 'image/gif'})
       const attachment = new Attachment(file)
       assert(attachment.isImage())
     })
 
-    it('transitions through save states', function() {
+    it('transitions through save states', function () {
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const attachment = new Attachment(file)
       assert(attachment.isPending())
@@ -57,9 +57,9 @@ describe('file-attachment', function() {
     })
   })
 
-  describe('element', function() {
+  describe('element', function () {
     let fileAttachment, input
-    beforeEach(function() {
+    beforeEach(function () {
       document.body.innerHTML = `
         <file-attachment input="upload">
           <input type="file" id="upload">
@@ -69,11 +69,11 @@ describe('file-attachment', function() {
       input = document.querySelector('input')
     })
 
-    afterEach(function() {
+    afterEach(function () {
       document.body.innerHTML = ''
     })
 
-    it('attaches files via .attach', async function() {
+    it('attaches files via .attach', async function () {
       const listener = once('file-attachment-accepted')
 
       const dataTransfer = new DataTransfer()
@@ -85,7 +85,7 @@ describe('file-attachment', function() {
       assert.equal('test.txt', event.detail.attachments[0].file.name)
     })
 
-    it('attaches files via drop', async function() {
+    it('attaches files via drop', async function () {
       const listener = once('file-attachment-accepted')
 
       const dataTransfer = new DataTransfer()
@@ -98,7 +98,7 @@ describe('file-attachment', function() {
       assert.equal('test.txt', event.detail.attachments[0].file.name)
     })
 
-    it('attaches images via paste', async function() {
+    it('attaches images via paste', async function () {
       const listener = once('file-attachment-accepted')
 
       const dataTransfer = new DataTransfer()
@@ -111,7 +111,7 @@ describe('file-attachment', function() {
       assert.equal('test.png', event.detail.attachments[0].file.name)
     })
 
-    it('attaches files via input', async function() {
+    it('attaches files via input', async function () {
       const listener = once('file-attachment-accepted')
 
       const dataTransfer = new DataTransfer()

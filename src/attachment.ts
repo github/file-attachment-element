@@ -109,13 +109,13 @@ function visible<T extends File | FileSystemEntry>(files: T[]): T[] {
 }
 
 function getFile(entry: FileSystemFileEntry): Promise<File> {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     entry.file(resolve, reject)
   })
 }
 
 function getEntries(entry: FileSystemDirectoryEntry): Promise<FileSystemEntry[]> {
-  return new Promise(function(resolve, reject) {
+  return new Promise(function (resolve, reject) {
     const result: FileSystemEntry[] = []
     const reader = entry.createReader()
     const read = () => {
