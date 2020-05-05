@@ -97,7 +97,7 @@ function transferredFiles(transfer: DataTransfer, directory: boolean): Promise<A
   if (directory && isDirectory(transfer)) {
     return traverse('', roots(transfer))
   }
-  return Promise.resolve(visible(Array.from(transfer.files)).map(f => new Attachment(f)))
+  return Promise.resolve(visible(Array.from(transfer.files || [])).map(f => new Attachment(f)))
 }
 
 function hidden(file: File | FileSystemEntry): boolean {
