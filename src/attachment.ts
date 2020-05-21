@@ -43,7 +43,7 @@ export default class Attachment {
     return ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'].indexOf(this.file.type) > -1
   }
 
-  saving(percent: number) {
+  saving(percent: number): void {
     if (this.state !== 'pending' && this.state !== 'saving') {
       throw new Error(`Unexpected transition from ${this.state} to saving`)
     }
@@ -51,7 +51,7 @@ export default class Attachment {
     this.percent = percent
   }
 
-  saved(attributes?: {id?: string | null; href?: string | null; name?: string | null}) {
+  saved(attributes?: {id?: string | null; href?: string | null; name?: string | null}): void {
     if (this.state !== 'pending' && this.state !== 'saving') {
       throw new Error(`Unexpected transition from ${this.state} to saved`)
     }

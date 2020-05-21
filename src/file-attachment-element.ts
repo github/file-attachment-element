@@ -23,7 +23,7 @@ export default class FileAttachmentElement extends HTMLElement {
     }
   }
 
-  async attach(transferred: File[] | Attachment[] | FileList | DataTransfer) {
+  async attach(transferred: File[] | Attachment[] | FileList | DataTransfer): Promise<void> {
     const attachments =
       transferred instanceof DataTransfer
         ? await Attachment.traverse(transferred, this.directory)
