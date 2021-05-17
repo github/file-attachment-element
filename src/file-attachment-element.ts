@@ -10,6 +10,15 @@ export default class FileAttachmentElement extends HTMLElement {
     this.addEventListener('change', onChange)
   }
 
+  disconnectedCallback(): void {
+    this.removeEventListener('dragenter', onDragenter)
+    this.removeEventListener('dragover', onDragenter)
+    this.removeEventListener('dragleave', onDragleave)
+    this.removeEventListener('drop', onDrop)
+    this.removeEventListener('paste', onPaste)
+    this.removeEventListener('change', onChange)
+  }
+
   get directory(): boolean {
     return this.hasAttribute('directory')
   }
