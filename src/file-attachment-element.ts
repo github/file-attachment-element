@@ -1,5 +1,8 @@
 import Attachment from './attachment'
 
+// eslint-disable-next-line custom-elements/no-exports-with-element
+export {Attachment}
+
 export default class FileAttachmentElement extends HTMLElement {
   connectedCallback(): void {
     this.addEventListener('dragenter', onDragenter)
@@ -149,4 +152,15 @@ function onChange(event: Event) {
 
   container.attach(files)
   input.value = ''
+}
+
+declare global {
+  interface Window {
+    FileAttachmentElement: typeof FileAttachmentElement
+  }
+}
+
+if (!window.customElements.get('file-attachment')) {
+  window.FileAttachmentElement = FileAttachmentElement
+  window.customElements.define('file-attachment', FileAttachmentElement)
 }

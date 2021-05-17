@@ -1,8 +1,15 @@
 {
   "root": true,
-  "extends": ["plugin:github/browser", "plugin:github/recommended", "plugin:github/typescript"],
+  "plugins": ["custom-elements"],
+  "extends": [
+    "plugin:github/browser",
+    "plugin:github/recommended",
+    "plugin:github/typescript",
+    "plugin:custom-elements/recommended"
+  ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "off",
+    "custom-elements/tag-name-matches-class": ["error", {"suffix": "Element"}]
   },
   "globals": {
     "FileAttachmentElement": "readonly"
