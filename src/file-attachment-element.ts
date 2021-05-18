@@ -1,14 +1,22 @@
 import Attachment from './attachment'
 
 export default class FileAttachmentElement extends HTMLElement {
-  constructor() {
-    super()
+  connectedCallback(): void {
     this.addEventListener('dragenter', onDragenter)
     this.addEventListener('dragover', onDragenter)
     this.addEventListener('dragleave', onDragleave)
     this.addEventListener('drop', onDrop)
     this.addEventListener('paste', onPaste)
     this.addEventListener('change', onChange)
+  }
+
+  disconnectedCallback(): void {
+    this.removeEventListener('dragenter', onDragenter)
+    this.removeEventListener('dragover', onDragenter)
+    this.removeEventListener('dragleave', onDragleave)
+    this.removeEventListener('drop', onDrop)
+    this.removeEventListener('paste', onPaste)
+    this.removeEventListener('change', onChange)
   }
 
   get directory(): boolean {
@@ -132,8 +140,9 @@ function onChange(event: Event) {
   if (!(container instanceof FileAttachmentElement)) return
   const input = event.target
   if (!(input instanceof HTMLInputElement)) return
+
   const id = container.getAttribute('input')
-  if (!id || input.id !== id) return
+  if (id && input.id !== id) return
 
   const files = input.files
   if (!files || files.length === 0) return
