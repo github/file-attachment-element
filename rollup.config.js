@@ -1,7 +1,7 @@
 const pkg = require('./package.json')
 
 export default {
-  input: 'dist/index.js',
+  input: 'dist/file-attachment-element.js',
   output: [
     {
       file: pkg['module'],
