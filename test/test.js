@@ -39,6 +39,24 @@ describe('file-attachment', function () {
       assert(attachment.isImage())
     })
 
+    it('detects mp4 video types', function () {
+      const file = new File(['hubot'], 'test.mp4', {type: 'video/mp4'})
+      const attachment = new Attachment(file)
+      assert(attachment.isVideo())
+    })
+
+    it('detects quicktime video types', function () {
+      const file = new File(['hubot'], 'test.mov', {type: 'video/quicktime'})
+      const attachment = new Attachment(file)
+      assert(attachment.isVideo())
+    })
+
+    it('detects non video types', function () {
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      const attachment = new Attachment(file)
+      assert(!attachment.isVideo())
+    })
+
     it('transitions through save states', function () {
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const attachment = new Attachment(file)

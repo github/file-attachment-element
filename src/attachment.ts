@@ -43,6 +43,10 @@ export default class Attachment {
     return ['image/gif', 'image/png', 'image/jpg', 'image/jpeg'].indexOf(this.file.type) > -1
   }
 
+  isVideo(): boolean {
+    return ['video/mp4', 'video/quicktime'].indexOf(this.file.type) > -1
+  }
+
   saving(percent: number): void {
     if (this.state !== 'pending' && this.state !== 'saving') {
       throw new Error(`Unexpected transition from ${this.state} to saving`)
