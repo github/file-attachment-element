@@ -124,6 +124,24 @@ describe('file-attachment', function () {
       assert.equal('test.png', event.detail.attachments[0].file.name)
       assert.equal(0, input.files.length)
     })
+
+    it('fires a file-attachment-dragged event on dragenter', async function () {
+      const listener = once('file-attachment-dragged')
+      const dragEvent = new Event('dragenter', {bubbles: true})
+      input.dispatchEvent(dragEvent)
+      const event = await listener
+      assert.equal(dragEvent, event.detail.dragEvent)
+      assert.equal(fileAttachment, event.detail.attachmentElement)
+    })
+
+    it('fires a file-attachment-dragged event on dragover', async function () {
+      const listener = once('file-attachment-dragged')
+      const dragEvent = new Event('dragover', {bubbles: true})
+      input.dispatchEvent(dragEvent)
+      const event = await listener
+      assert.equal(dragEvent, event.detail.dragEvent)
+      assert.equal(fileAttachment, event.detail.attachmentElement)
+    })
   })
 })
 
