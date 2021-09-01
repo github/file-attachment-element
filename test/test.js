@@ -131,7 +131,7 @@ describe('file-attachment', function () {
       input.dispatchEvent(dragEvent)
       const event = await listener
       assert.equal(dragEvent, event.detail.dragEvent)
-      assert.equal(fileAttachment, event.detail.attachmentElement)
+      assert.equal(fileAttachment, event.detail.target)
     })
 
     it('fires a file-attachment-dragged event on dragover', async function () {
@@ -140,7 +140,7 @@ describe('file-attachment', function () {
       input.dispatchEvent(dragEvent)
       const event = await listener
       assert.equal(dragEvent, event.detail.dragEvent)
-      assert.equal(fileAttachment, event.detail.attachmentElement)
+      assert.equal(fileAttachment, event.detail.target)
     })
   })
 })

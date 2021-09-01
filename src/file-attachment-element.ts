@@ -79,7 +79,7 @@ function onDragenter(event: DragEvent) {
     cancelable: true,
     detail: {
       dragEvent: event,
-      attachmentElement: target
+      target
     }
   })
   target.dispatchEvent(dragEvent)
