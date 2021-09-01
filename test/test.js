@@ -125,22 +125,34 @@ describe('file-attachment', function () {
       assert.equal(0, input.files.length)
     })
 
-    it('fires a file-attachment-dragged event on dragenter', async function () {
-      const listener = once('file-attachment-dragged')
-      const dragEvent = new Event('dragenter', {bubbles: true})
+    it('bubbles the dragenter event after cancelling its default behavior', async function () {
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+
+      const dragEvent = new DragEvent('dragenter', {bubbles: true, cancelable: true, dataTransfer})
+
+      const listener = once('dragenter')
       input.dispatchEvent(dragEvent)
+
       const event = await listener
-      assert.equal(dragEvent, event.detail.dragEvent)
-      assert.equal(fileAttachment, event.detail.target)
+      assert.equal(dragEvent, event)
+      assert.equal(true, event.defaultPrevented)
     })
 
-    it('fires a file-attachment-dragged event on dragover', async function () {
-      const listener = once('file-attachment-dragged')
-      const dragEvent = new Event('dragover', {bubbles: true})
+    it('bubbles the dragover event after cancelling its default behavior', async function () {
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+
+      const dragEvent = new DragEvent('dragover', {bubbles: true, cancelable: true, dataTransfer})
+
+      const listener = once('dragover')
       input.dispatchEvent(dragEvent)
+
       const event = await listener
-      assert.equal(dragEvent, event.detail.dragEvent)
-      assert.equal(fileAttachment, event.detail.target)
+      assert.equal(dragEvent, event)
+      assert.equal(true, event.defaultPrevented)
     })
   })
 })

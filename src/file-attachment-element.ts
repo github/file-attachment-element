@@ -74,16 +74,6 @@ function onDragenter(event: DragEvent) {
     clearTimeout(dragging)
   }
 
-  const dragEvent = new CustomEvent('file-attachment-dragged', {
-    bubbles: true,
-    cancelable: true,
-    detail: {
-      dragEvent: event,
-      target
-    }
-  })
-  target.dispatchEvent(dragEvent)
-
   dragging = window.setTimeout(() => target.removeAttribute('hover'), 200)
 
   const transfer = event.dataTransfer
@@ -92,7 +82,6 @@ function onDragenter(event: DragEvent) {
   transfer.dropEffect = 'copy'
   target.setAttribute('hover', '')
 
-  event.stopPropagation()
   event.preventDefault()
 }
 
