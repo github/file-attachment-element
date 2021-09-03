@@ -142,6 +142,36 @@ describe('file-attachment', function () {
       assert.equal('test.png', event.detail.attachments[0].file.name)
       assert.equal(0, input.files.length)
     })
+
+    it('bubbles the dragenter event after cancelling its default behavior', async function () {
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+
+      const dragEvent = new DragEvent('dragenter', {bubbles: true, cancelable: true, dataTransfer})
+
+      const listener = once('dragenter')
+      input.dispatchEvent(dragEvent)
+
+      const event = await listener
+      assert.equal(dragEvent, event)
+      assert.equal(true, event.defaultPrevented)
+    })
+
+    it('bubbles the dragover event after cancelling its default behavior', async function () {
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
+      dataTransfer.items.add(file)
+
+      const dragEvent = new DragEvent('dragover', {bubbles: true, cancelable: true, dataTransfer})
+
+      const listener = once('dragover')
+      input.dispatchEvent(dragEvent)
+
+      const event = await listener
+      assert.equal(dragEvent, event)
+      assert.equal(true, event.defaultPrevented)
+    })
   })
 })
 

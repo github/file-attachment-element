@@ -73,6 +73,7 @@ function onDragenter(event: DragEvent) {
   if (dragging) {
     clearTimeout(dragging)
   }
+
   dragging = window.setTimeout(() => target.removeAttribute('hover'), 200)
 
   const transfer = event.dataTransfer
@@ -81,7 +82,6 @@ function onDragenter(event: DragEvent) {
   transfer.dropEffect = 'copy'
   target.setAttribute('hover', '')
 
-  event.stopPropagation()
   event.preventDefault()
 }
 
