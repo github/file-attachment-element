@@ -116,7 +116,7 @@ const images = /^image\/(gif|png|jpeg)$/
 
 function pastedFile(items: DataTransferItemList): File | null {
   for (const item of items) {
-    if (images.test(item.type)) {
+    if (item.kind === 'file' && images.test(item.type)) {
       return item.getAsFile()
     }
   }
