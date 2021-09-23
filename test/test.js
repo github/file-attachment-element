@@ -172,6 +172,20 @@ describe('file-attachment', function () {
       assert.equal(dragEvent, event)
       assert.equal(true, event.defaultPrevented)
     })
+
+    it('attaches the correct file when browser sends multiple data transfer items with image as type', async function () {
+      const listener = once('file-attachment-accepted')
+
+      const dataTransfer = new DataTransfer()
+      const file = new File(['hubot'], 'test.png', {type: 'image/png'})
+      dataTransfer.items.add('some string', 'image/jpeg')
+      dataTransfer.items.add(file)
+      const dropEvent = new ClipboardEvent('paste', {bubbles: true, clipboardData: dataTransfer})
+      fileAttachment.dispatchEvent(dropEvent)
+
+      const event = await listener
+      assert.equal('test.png', event.detail.attachments[0].file.name)
+    })
   })
 })
 
