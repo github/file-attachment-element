@@ -1,4 +1,6 @@
-module.exports = function(config) {
+process.env.CHROME_BIN = require('playwright').chromium.executablePath()
+
+module.exports = function (config) {
   config.set({
     frameworks: ['mocha', 'chai'],
     files: [
