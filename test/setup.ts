@@ -1,4 +1,3 @@
-import { vi } from 'vitest'
 import FileAttachmentElement from '../src/file-attachment-element'
 
 // Define a global CustomEvent class if not already available
@@ -13,7 +12,7 @@ if (typeof window.CustomEvent !== 'function') {
 }
 
 // Register the custom element before running tests
-customElements.define('file-attachment', FileAttachmentElement)
+customElements.get('file-attachment') || customElements.define('file-attachment', FileAttachmentElement)
 
 // Mock window.FileAttachmentElement for element creation tests
 Object.defineProperty(window, 'FileAttachmentElement', {

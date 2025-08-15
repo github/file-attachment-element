@@ -16,7 +16,6 @@
     "prebuild": "npm run clean && npm run lint && npm run compile",
     "compile": "tsc",
     "build": "rollup -c",
-    "pretest": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:legacy": "karma start karma.config.js",
