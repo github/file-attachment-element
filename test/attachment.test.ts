@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import {describe, it, expect, beforeEach, afterEach} from 'vitest'
 import Attachment from '../src/attachment'
 import FileAttachmentElement from '../src/file-attachment-element'
 
@@ -103,7 +103,7 @@ describe('file-attachment', () => {
       dataTransfer.items.add(file)
       fileAttachment.attach(dataTransfer)
 
-      const event = await listener as CustomEvent
+      const event = (await listener) as CustomEvent
       expect(event.detail.attachments[0].file.name).toBe('test.txt')
     })
 
@@ -112,11 +112,11 @@ describe('file-attachment', () => {
 
       const file = new File(['hubot'], 'test.txt', {type: 'text/plain'})
       const files = [file]
-      
+
       // Call attach directly instead of relying on event handling
       fileAttachment.attach(files)
 
-      const event = await listener as CustomEvent
+      const event = (await listener) as CustomEvent
       expect(event.detail.attachments[0].file.name).toBe('test.txt')
     })
 
@@ -129,7 +129,7 @@ describe('file-attachment', () => {
       const dropEvent = new ClipboardEvent('paste', {bubbles: true, clipboardData: dataTransfer})
       fileAttachment.dispatchEvent(dropEvent)
 
-      const event = await listener as CustomEvent
+      const event = (await listener) as CustomEvent
       expect(event.detail.attachments[0].file.name).toBe('test.png')
     })
 
@@ -142,7 +142,7 @@ describe('file-attachment', () => {
       input.files = dataTransfer.files
       input.dispatchEvent(new Event('change', {bubbles: true}))
 
-      const event = await listener as CustomEvent
+      const event = (await listener) as CustomEvent
       expect(event.detail.attachments[0].file.name).toBe('test.png')
       expect(input.files.length).toBe(0)
     })
@@ -154,14 +154,14 @@ describe('file-attachment', () => {
 
       // Create a mock event
       const dragEvent = new DragEvent('dragenter', {bubbles: true, cancelable: true, dataTransfer})
-      
+
       // Manually call preventDefault since we're testing after the fact
       dragEvent.preventDefault()
-      
+
       const listener = once('dragenter')
       fileAttachment.dispatchEvent(dragEvent)
 
-      const event = await listener as DragEvent
+      const event = (await listener) as DragEvent
       expect(event).toBe(dragEvent)
       expect(event.defaultPrevented).toBe(true)
     })
@@ -173,14 +173,14 @@ describe('file-attachment', () => {
 
       // Create a mock event
       const dragEvent = new DragEvent('dragover', {bubbles: true, cancelable: true, dataTransfer})
-      
+
       // Manually call preventDefault since we're testing after the fact
       dragEvent.preventDefault()
-      
+
       const listener = once('dragover')
       fileAttachment.dispatchEvent(dragEvent)
 
-      const event = await listener as DragEvent
+      const event = (await listener) as DragEvent
       expect(event).toBe(dragEvent)
       expect(event.defaultPrevented).toBe(true)
     })
@@ -195,7 +195,7 @@ describe('file-attachment', () => {
       const dropEvent = new ClipboardEvent('paste', {bubbles: true, clipboardData: dataTransfer})
       fileAttachment.dispatchEvent(dropEvent)
 
-      const event = await listener as CustomEvent
+      const event = (await listener) as CustomEvent
       expect(event.detail.attachments[0].file.name).toBe('test.png')
     })
   })

@@ -12,7 +12,7 @@ if (typeof window.CustomEvent !== 'function') {
 }
 
 // Register the custom element before running tests
-customElements.get('file-attachment') || customElements.define('file-attachment', FileAttachmentElement)
+if (!customElements.get('file-attachment')) customElements.define('file-attachment', FileAttachmentElement)
 
 // Mock window.FileAttachmentElement for element creation tests
 Object.defineProperty(window, 'FileAttachmentElement', {
@@ -25,7 +25,7 @@ if (typeof DataTransfer === 'undefined') {
   global.DataTransfer = class DataTransfer {
     files: File[] = []
     items = {
-      add: (fileOrData: any, type?: string) => {
+      add: (fileOrData: any) => {
         if (fileOrData instanceof File) {
           this.files.push(fileOrData)
         }
