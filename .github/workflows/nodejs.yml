@@ -6,11 +6,16 @@ jobs:
     permissions:
       contents: read
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
-        node-version: '14.x'
+        node-version: '20.x'
+    # Enable unprivileged user namespaces for Chrome sandbox
+    # This is required because Ubuntu 23.10+ disables them by default
+    # See: https://github.com/actions/runner-images/issues/9621
+    - name: Enable user namespaces
+      run: sudo sysctl -w kernel.unprivileged_userns_clone=1
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
