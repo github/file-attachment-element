@@ -40,7 +40,9 @@ export default class Attachment {
   }
 
   isImage(): boolean {
-    return ['image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml'].indexOf(this.file.type) > -1
+    return (
+      ['image/gif', 'image/png', 'image/jpg', 'image/jpeg', 'image/svg+xml', 'image/webp'].indexOf(this.file.type) > -1
+    )
   }
 
   isVideo(): boolean {
