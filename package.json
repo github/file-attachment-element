@@ -22,6 +22,9 @@
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
   "prettier": "@github/prettier-config",
+  "overrides": {
+    "tmp": "0.2.5"
+  },
   "devDependencies": {
     "@github/prettier-config": "0.0.4",
     "chai": "^4.3.4",
