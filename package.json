@@ -22,10 +22,13 @@
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
   "prettier": "@github/prettier-config",
+  "overrides": {
+    "tmp": "0.2.5"
+  },
   "devDependencies": {
     "@github/prettier-config": "0.0.4",
     "chai": "^4.3.4",
-    "chromium": "3.2171.3008",
+    "chromium": "3.0.3",
     "eslint": "^7.26.0",
     "eslint-plugin-custom-elements": "^0.0.2",
     "eslint-plugin-github": "^4.1.3",
