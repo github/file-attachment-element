@@ -35,4 +35,4 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm version "${TAG_NAME}" --git-tag-version=false --allow-same-version
-      - run: npm --ignore-scripts publish --provenance
+      - run: npm --ignore-scripts publish --provenance --access public
