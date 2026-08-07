@@ -3,15 +3,30 @@ name: Publish
 on:
   release:
     types: [created]
+  workflow_dispatch:
+    inputs:
+      tag_version:
+        description: Existing tag version to publish
+        required: true
+        type: string
 
 jobs:
   publish-npm:
     runs-on: ubuntu-latest
+    env:
+      TAG_NAME: ${{ github.event_name == 'workflow_dispatch' && inputs.tag_version || github.event.release.tag_name }}
     permissions:
       contents: read
       id-token: write
     steps:
+      - name: Validate tag
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api "repos/${GITHUB_REPOSITORY}/git/ref/tags/${TAG_NAME}" --silent
       - uses: actions/checkout@v5
+        with:
+          ref: ${{ env.TAG_NAME }}
       - uses: actions/setup-node@v5
         with:
           node-version: 24
@@ -19,7 +34,5 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-      - run: npm version ${TAG_NAME} --git-tag-version=false
-        env:
-          TAG_NAME: ${{ github.event.release.tag_name }}
-      - run: npm --ignore-scripts publish --provenance
+      - run: npm version "${TAG_NAME}" --git-tag-version=false --allow-same-version
+      - run: npm --ignore-scripts publish --provenance --access public

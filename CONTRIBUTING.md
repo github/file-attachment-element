@@ -26,6 +26,32 @@ Here are a few things you can do that will increase the likelihood of your pull 
 - Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
 - Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
 
+## Publishing
+
+Publishing requires write access to the repository.
+
+### Creating a release
+
+1. Run `npm version <version> --no-git-tag-version` to update the version in `package.json` and `package-lock.json`.
+2. Open a pull request with the version change and merge it into the default branch.
+3. Create a GitHub release from the merged commit, using the new version as the tag (for example, `3.3.0`).
+4. Confirm that the [Publish workflow](https://github.com/github/file-attachment-element/actions/workflows/publish.yml) completes successfully. Creating the release triggers this workflow, which publishes the package to npm.
+
+### Publishing manually
+
+To publish an existing version tag without creating another release:
+
+1. Open the [Publish workflow](https://github.com/github/file-attachment-element/actions/workflows/publish.yml).
+2. Select **Run workflow**.
+3. Enter the existing version tag in **Existing tag version to publish** and run the workflow.
+4. Confirm that the workflow completes successfully.
+
+The same workflow can be started with GitHub CLI:
+
+```sh
+gh workflow run publish.yml --field tag_version=<version>
+```
+
 ## Resources
 
 - [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
