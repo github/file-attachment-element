@@ -91,6 +91,22 @@ describe('file-attachment', function () {
       document.body.innerHTML = ''
     })
 
+    it('clears hover independently for multiple attachment elements', async function () {
+      const other = document.createElement('file-attachment')
+      document.body.append(other)
+      const dataTransfer = new DataTransfer()
+      dataTransfer.items.add(new File(['hubot'], 'test.txt', {type: 'text/plain'}))
+      fileAttachment.dispatchEvent(new DragEvent('dragenter', {bubbles: true, dataTransfer}))
+      other.dispatchEvent(new DragEvent('dragenter', {bubbles: true, dataTransfer}))
+      assert.isTrue(fileAttachment.hasAttribute('hover'))
+      assert.isTrue(other.hasAttribute('hover'))
+
+      await new Promise(resolve => window.setTimeout(resolve, 250))
+
+      assert.isFalse(fileAttachment.hasAttribute('hover'))
+      assert.isFalse(other.hasAttribute('hover'))
+    })
+
     it('attaches files via .attach', async function () {
       const listener = once('file-attachment-accepted')
 
