@@ -63,18 +63,18 @@ function hasFile(transfer: DataTransfer): boolean {
   return Array.from(transfer.types).indexOf('Files') >= 0
 }
 
-let dragging: number | null = null
+const dragging = new WeakMap<Element, number>()
 
 // Highlight textarea and change drop cursor. Ensure drop target styles
 // are cleared after dragging back outside of window.
 function onDragenter(event: DragEvent) {
   const target = event.currentTarget as Element
 
-  if (dragging) {
-    clearTimeout(dragging)
-  }
-
-  dragging = window.setTimeout(() => target.removeAttribute('hover'), 200)
+  clearTimeout(dragging.get(target))
+  dragging.set(
+    target,
+    window.setTimeout(() => target.removeAttribute('hover'), 200)
+  )
 
   const transfer = event.dataTransfer
   if (!transfer || !hasFile(transfer)) return
